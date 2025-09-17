@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI JSON Beautifier</title>
+</head>
+<body>
+    <h1>AI JSON Beautifier</h1>
+    <textarea id="jsonInput" rows="10" cols="50"></textarea>
+    <button onclick="beautifyJson()">Beautify</button>
+    <button onclick="fixJson()">Fix with AI</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function beautifyJson() {
+            let jsonText = document.getElementById("jsonInput").value;
+            try {
+                let parsedJson = JSON.parse(jsonText);
+                let beautifiedJson = JSON.stringify(parsedJson, null, 4);
+                document.getElementById("output").innerText = beautifiedJson;
+            } catch (error) {
+                document.getElementById("output").innerText = "⚠ Invalid JSON!";
+            }
+        }
+        
+        async function fixJson() {
+            let jsonText = document.getElementById("jsonInput").value;
+            try {
+                let response = await fetch('http://127.0.0.1:5001/fix', {  // ✅ Fixed API URL
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ json: jsonText })
+                });
+
+                console.log("📢 Response Status:", response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`Server Error: ${response.status} ${response.statusText}`);
+                }
+
+                let result = await response.json();
+                console.log("📢 API Response:", result);
+                document.getElementById("output").innerText = result.result;
+            } catch (error) {
+                console.error("❌ Fetch Error:", error);
+                document.getElementById("output").innerText = "⚠ Error fixing JSON!";
+            }
+        }
+    </script>
+</body>
+</html>

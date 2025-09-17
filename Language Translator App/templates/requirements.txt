@@ -1,0 +1,12 @@
+pip install google-cloud-translate
+
+pip install fasttext-wheel
+
+pip install langdetect
+
+curl -O https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+
+Check File Permissions:::
+
+icacls lid.176.bin
+icacls lid.176.bin /grant Everyone:F

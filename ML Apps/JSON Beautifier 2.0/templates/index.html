@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Beautifier & Converter</title>
+    
+    <!-- Bootstrap for Better UI -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/json-viewer-js@1.0.0/json-viewer.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+        }
+
+        .dark-mode { 
+            background: #121212; 
+            color: white; 
+        }
+
+        textarea { 
+            width: 100%; 
+            height: 150px; 
+            padding: 10px; 
+            font-size: 14px; 
+            border-radius: 5px; 
+            border: 1px solid #ccc; 
+        }
+
+        .buttons { 
+            margin: 20px 0; 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 12px; 
+            justify-content: center;
+        }
+        
+        /* Stylish Button Design */
+        .btn-custom {
+            background: linear-gradient(135deg, #007bff, #0056b3); 
+            color: white; 
+            border: none; 
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Hover Effect */
+        .btn-custom:hover {
+            background: linear-gradient(135deg, #0056b3, #003d80);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Active (Click) Effect */
+        .btn-custom:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Icons inside buttons */
+        .btn-custom i {
+            margin-right: 6px;
+        }
+        
+
+        .btn-custom {
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 5px;
+            padding: 5px 5px;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover {
+            background: #0056b3;
+        }
+
+        .output-container {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .dark-mode .output-container { 
+            background: #222; 
+            border-color: #555; 
+        }
+
+        .input-group {
+            max-width: 400px;
+            margin: auto;
+        }
+
+           /* Output Container Styling */
+    .output-container {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        max-height: 250px;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .dark-mode .output-container {
+        background: #222;
+        border-color: #555;
+    }
+
+    /* Copy & Download Button Styling */
+    .icon-btn {
+        position: absolute;
+        top: 10px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        color: #007bff;
+    }
+
+    .copy-btn { right: 40px; }
+    .download-btn { right: 10px; }
+
+    .icon-btn:hover {
+        color: #0056b3;
+    }
+
+    /* File Upload & Drag-Drop */
+    .file-upload-container {
+        text-align: center;
+        padding: 15px;
+        border: 2px dashed #007bff;
+        border-radius: 5px;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+    .file-upload-container:hover {
+        background: #f0f8ff;
+    }
+
+    .drag-drop-text {
+        color: #555;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+    <div>
+        <h2>JSON Beautifier & Converter</h2>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-dark" onclick="toggleDarkMode()" >🌙Dark Mode</button>
+          </div>
+    </div>
+    
+        <textarea id="jsonInput" class="form-control mt-3" placeholder="Paste JSON here"></textarea>
+        <button class="btn btn-outline-secondary mt-2 d-grid gap-2 d-md-block"  onclick="clearInput()"> ❌ Clear</button>
+
+
+        <div class=".btn-custom mt-3">
+            <button class="btn btn-custom btn-primary" onclick="processJSON('beautify')"><i class="fas fa-paint-brush"></i> Beautify</button>
+            <button class="btn btn-custom btn-primary" onclick="processJSON('minify')"><i class="fas fa-compress"></i> Minify</button>
+            <button class="btn btn-custom btn-primary" onclick="processJSON('validate')"><i class="fas fa-check-circle"></i> Validate</button>
+            <button class="btn btn-custom btn-primary" onclick="processJSON('convert-to-xml')"><i class="fas fa-code"></i> Convert to XML</button>
+            <!-- <button class="btn btn-custom" onclick="copyToClipboard()"><i class="fas fa-copy"></i> Copy</button> -->
+            <!-- <button class="btn btn-custom" onclick="downloadJSON()"><i class="fas fa-download"></i> Download</button> -->
+            <button class="btn btn-custom btn-primary" onclick="generateShareableLink()"><i class="fas fa-link"></i> Share</button>
+            <button class="btn btn-custom btn-primary" onclick="autoFixJSON()"><i class="fas fa-magic"></i> AI Auto-Fix</button>
+        </div>
+
+        <div class="input-group mt-3">
+            <input type="text" id="searchQuery" class="form-control" placeholder="Search JSON...">
+            <button class="btn btn-custom btn-primary" onclick="searchJSON()">🔍 Search</button>
+        </div>
+
+        <button class="btn btn-custom mt-2 btn-primary" onclick="summarizeJSON()">📄 Summarize JSON</button>
+
+        <!-- <input type="file" id="jsonFile" class="form-control mt-3" accept=".json" onchange="uploadFile(event)"> -->
+        <h3 class="mt-3">JSON Output:</h3>
+
+        <!-- Buttons Positioned Above Output -->
+        <div class="d-flex justify-content-end mb-2">
+            <button class="btn btn-custom me-2" onclick="copyToClipboard()" title="Copy JSON">
+                <i class="fas fa-copy"></i> 
+            </button>
+        
+            <button class="btn btn-custom" onclick="downloadJSON()" title="Download JSON">
+                <i class="fas fa-download"></i> 
+            </button>
+        </div>
+        
+        <!-- Output Container -->
+        <div class="output-container position-relative">
+            <!-- JSON Output Display -->
+            <div id="jsonOutput"></div>
+        </div>
+        
+        
+        <!-- File Upload with Drag & Drop -->
+        <div class="file-upload-container" ondrop="handleFileDrop(event)" ondragover="event.preventDefault()">
+            <input type="file" id="jsonFile" accept=".json" onchange="uploadFile(event)" hidden>
+            <button class="btn btn-primary" onclick="document.getElementById('jsonFile').click();">
+                <i class="fas fa-upload "></i> Upload JSON File
+            </button>
+            <p class="drag-drop-text">Or drag & drop a JSON file here</p>
+        </div>
+
+    <script>
+        async function processJSON(endpoint) {
+            let jsonText = document.getElementById("jsonInput").value;
+            try {
+                let response = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: jsonText
+                });
+                let data = await response.json();
+                
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    let output = data.beautified_json || data.minified_json || data.xml;
+                    document.getElementById("jsonOutput").textContent = output;
+                }
+            } catch (error) {
+                showError("Invalid JSON input.");
+            }
+        }
+
+        function clearInput() {
+            document.getElementById('jsonInput').value = "";
+            document.getElementById('jsonOutput').innerHTML = "";  // Clear output
+
+        }
+
+        function showError(message) {
+            document.getElementById("jsonOutput").innerHTML = `<div class="alert alert-danger">❌ ${message}</div>`;
+        }
+
+        function uploadFile(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById("jsonInput").value = event.target.result;
+            };
+            reader.readAsText(file);
+        }
+
+        function copyToClipboard() {
+            let text = document.getElementById("jsonOutput").textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                let copyBtn = document.querySelector(".copy-btn");
+                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 2000);
+            }).catch(() => {
+                alert("❌ Copy failed!");
+            });
+        }
+
+        function downloadJSON() {
+            let text = document.getElementById("jsonOutput").textContent;
+            let blob = new Blob([text], { type: "application/json" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "formatted_json_" + new Date().toISOString().slice(0, 19) + ".json";
+            link.click();
+        }
+        
+        function generateShareableLink() {
+            let jsonText = document.getElementById("jsonInput").value;
+            let encodedJSON = btoa(jsonText);
+            let url = `${window.location.origin}/?json=${encodedJSON}`;
+            navigator.clipboard.writeText(url);
+            alert("Shareable link copied to clipboard!");
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+        }
+
+        window.onload = function () {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+            let params = new URLSearchParams(window.location.search);
+            if (params.has("json")) {
+                document.getElementById("jsonInput").value = atob(params.get("json"));
+            }
+        };
+
+        function displayJSON(data) {
+            let jsonOutput = document.getElementById("jsonOutput");
+            jsonOutput.innerHTML = ""; // Clear previous output
+        
+            try {
+                let parsedData = JSON.parse(data);
+                let viewer = new JSONViewer();
+                jsonOutput.appendChild(viewer.getContainer());
+                viewer.showJSON(parsedData, null, 2);
+            } catch (error) {
+                // If data is not JSON, show it as text (e.g., XML)
+                jsonOutput.innerHTML = `<pre>${data}</pre>`;
+            }
+        }
+
+        function autoFixJSON() {
+            let jsonText = document.getElementById("jsonInput").value;
+            try {
+                let parsedJSON = JSON.parse(jsonText);
+                document.getElementById("jsonOutput").textContent = JSON.stringify(parsedJSON, null, 4);
+                alert("✅ JSON is valid and formatted!");
+            } catch (error) {
+                alert("⚠️ Invalid JSON! Trying to fix...");
+                
+                // AI-powered JSON correction using regex patterns
+                jsonText = jsonText.replace(/,\s*}/g, "}"); // Remove trailing commas
+                jsonText = jsonText.replace(/,\s*\]/g, "]"); // Fix array commas
+        
+                try {
+                    let fixedJSON = JSON.parse(jsonText);
+                    document.getElementById("jsonOutput").textContent = JSON.stringify(fixedJSON, null, 4);
+                    alert("✅ JSON auto-fixed!");
+                } catch (error) {
+                    alert("❌ Could not fix JSON automatically.");
+                }
+            }
+        }
+        
+        function searchJSON() {
+            let jsonText = document.getElementById("jsonInput").value;
+            let query = document.getElementById("searchQuery").value.toLowerCase();
+        
+            try {
+                let jsonData = JSON.parse(jsonText);
+                let results = [];
+        
+                function search(obj) {
+                    for (let key in obj) {
+                        if (typeof obj[key] === "object") {
+                            search(obj[key]);
+                        } else {
+                            if (String(obj[key]).toLowerCase().includes(query)) {
+                                results.push({ key: key, value: obj[key] });
+                            }
+                        }
+                    }
+                }
+        
+                search(jsonData);
+        
+                document.getElementById("jsonOutput").textContent = JSON.stringify(results, null, 4);
+                alert("🔍 Search complete!");
+            } catch (error) {
+                alert("❌ Invalid JSON format!");
+            }
+        }
+        
+    function summarizeJSON() {
+    let jsonText = document.getElementById("jsonInput").value;
+    let jsonOutput = document.getElementById("jsonOutput");
+
+    try {
+        let jsonData = JSON.parse(jsonText); // Parse the input JSON
+
+        // Function to recursively count keys and detect types
+        function countKeys(obj) {
+            let summary = [];
+            let count = Object.keys(obj).length;
+
+            for (let key in obj) {
+                let type = typeof obj[key];
+
+                if (Array.isArray(obj[key])) {
+                    summary.push(`📂 <strong>${key}</strong>: <em>Array (${obj[key].length} items)</em>`);
+                    obj[key].forEach((item, index) => {
+                        if (typeof item === "object" && item !== null) {
+                            let nestedSummary = countKeys(item);
+                            summary.push(`&nbsp;&nbsp;&nbsp;📌 <strong>${key}[${index}]</strong>:`);
+                            summary = summary.concat(nestedSummary);
+                        }
+                    });
+                } else if (type === "object" && obj[key] !== null) {
+                    summary.push(`📂 <strong>${key}</strong>: <em>Object</em>`);
+                    let nestedSummary = countKeys(obj[key]);
+                    summary = summary.concat(nestedSummary);
+                } else {
+                    summary.push(`🔹 <strong>${key}</strong>: <em>${type}</em>`);
+                }
+            }
+
+            return summary;
+        }
+
+        let summaryList = countKeys(jsonData);
+        let totalKeys = summaryList.length;
+
+        let summaryHTML = `<strong>🔍 JSON Summary:</strong><br>`;
+        summaryHTML += `✅ JSON contains <strong>${totalKeys}</strong> keys (including nested keys).<br><br>`;
+        summaryHTML += "<ul>";
+        summaryList.forEach(item => {
+            summaryHTML += `<li>${item}</li>`;
+        });
+        summaryHTML += "</ul>";
+
+        jsonOutput.innerHTML = summaryHTML; // Display summary properly
+    } catch (error) {
+        jsonOutput.innerHTML = `<div class="alert alert-danger">❌ Invalid JSON format!</div>`;
+    }
+}
+
+//       function uploadFile(event) {
+//            let file = event.target.files[0];
+//            processFile(file);
+//        } 
+        
+        function handleFileDrop(event) {
+            event.preventDefault();
+            let file = event.dataTransfer.files[0];
+            processFile(file);
+        }
+        
+        function processFile(file) {
+            if (file && file.type === "application/json") {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById("jsonInput").value = event.target.result;
+                };
+                reader.readAsText(file);
+            } else {
+                alert("❌ Please upload a valid JSON file!");
+            }
+        }
+        
+        function displayOutput(data, endpoint) {
+            let jsonOutput = document.getElementById("jsonOutput");
+            jsonOutput.innerHTML = ""; // Clear previous output
+        
+            if (endpoint === "convert-to-xml") {
+                // Format XML properly
+                jsonOutput.innerHTML = `<pre style="white-space: pre-wrap;">${escapeHtml(data)}</pre>`;
+            } else {
+                // Show JSON in a readable format
+                try {
+                    let parsedData = JSON.parse(data);
+                    let viewer = new JSONViewer();
+                    jsonOutput.appendChild(viewer.getContainer());
+                    viewer.showJSON(parsedData, null, 2);
+                } catch (error) {
+                    jsonOutput.innerHTML = `<pre>${data}</pre>`; // Show as plain text
+                }
+            }
+        }
+        
+        // Helper function to escape HTML tags in XML
+        function escapeHtml(unsafe) {
+            return unsafe.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+        
+        
+    </script>
+    <div class="container mt-5 p-4 rounded shadow-lg" >
+        <hr>
+        <h2 class="text-center text-primary"><i class="fas fa-code"></i> About This Tool</h2>
+        <p class="lead  text-start">
+            Transform your JSON experience! This powerful tool allows you to <strong>format, minify, validate</strong>, and even <strong>convert JSON to XML</strong> with a single click.
+            Say goodbye to messy JSON data and hello to clean, structured, and readable formats!
+        </p>
+    
+        <h3 class="text-success"><i class="fas fa-lightbulb"></i> How to Use:</h3>
+        <ul class="list-group list-group-flush text-start" >
+            <li class="list-group-item"><i class="fas fa-paste text-warning"></i> <strong>Paste your JSON</strong> in the input box.</li>
+            <li class="list-group-item"><i class="fas fa-paint-brush text-primary"></i> <strong>Click Beautify</strong> to format JSON with proper indentation.</li>
+            <li class="list-group-item"><i class="fas fa-check-circle text-success"></i> <strong>Use Validate</strong> to check if your JSON is correctly structured.</li>
+            <li class="list-group-item"><i class="fas fa-exchange-alt text-info"></i> <strong>Convert to XML</strong> with a single click.</li>
+            <li class="list-group-item"><i class="fas fa-magic text-danger"></i> <strong>Auto-Fix</strong> JSON errors instantly with AI-powered correction.</li>
+        </ul>
+    
+        <h3 class="text-warning mt-4"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
+
+        <div class="accordion" id="faqAccordion">
+            <!-- Q1: What is JSON Beautification? -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        <i class="fas fa-paint-brush text-primary"></i> What is JSON Beautification?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-start">
+                        JSON Beautification means formatting JSON data with proper indentation and line breaks to make it more readable for developers. 
+                        Our tool automatically structures your JSON for easy interpretation.
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Q2: How do I validate my JSON? -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        <i class="fas fa-check-circle text-success"></i> How do I validate my JSON?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-start">
+                        Simply paste your JSON into the input box and click the Validate button. The tool will check for syntax errors and let you know if the JSON is valid or needs fixing.
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Q3: Can I convert JSON to XML? -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        <i class="fas fa-exchange-alt text-info"></i> Can I convert JSON to XML?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-start">
+                        Yes! Our tool provides a Convert to XML option that instantly transforms JSON data into structured XML format.
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Q4: What is Minification in JSON? -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        <i class="fas fa-compress text-danger"></i> What is Minification in JSON?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-start">
+                        Minification removes all unnecessary spaces and line breaks from JSON to **reduce its size**. 
+                        This is useful for improving data transmission speeds in web applications.
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Q5: What are common JSON errors? -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        <i class="fas fa-bug text-warning"></i> What are common JSON errors?
+                    </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-start">
+                        Common errors include:
+                        <ul>
+                            <li>❌ <strong>Missing Double Quotes</strong>: JSON keys and string values must be enclosed in double quotes.</li>
+                            <li>❌ <strong>Trailing Commas</strong>: Avoid commas after the last element in an object or array.</li>
+                            <li>❌ <strong>Unescaped Special Characters</strong>: Characters like **newlines** must be properly escaped.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Q6: What is the difference between JSON and XML? -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                        <i class="fas fa-code-branch text-secondary"></i> What is the difference between JSON and XML?
+                    </button>
+                </h2>
+                <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-start">
+                        <strong>JSON vs XML:</strong>
+                        <ul>
+                            <li>📌 JSON is lightweight and easy to read, while XML is more verbose.</li>
+                            <li>📌 JSON supports arrays directly, whereas XML uses nested tags.</li>
+                            <li>📌 JSON is mostly used in **web APIs**, while XML is common in older systems.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Bootstrap for Accordion -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <hr>
+    <h2 class="text-center text-primary"><i class="fas fa-info-circle"></i> What Is JSON?</h2>
+    <p class="lead  text-start">
+        JSON (JavaScript Object Notation) is a lightweight, human-readable data format used for data exchange between systems. 
+        It is widely used in APIs, databases, and web applications due to its simplicity and compatibility with various programming languages.
+    </p>
+
+    <h3 class="text-success"><i class="fas fa-check-circle"></i> Why Use JSON?</h3>
+    <p class="text-start">
+        JSON is <strong>easy to read, lightweight, and widely supported</strong> across all major programming languages. Here are some key benefits:
+    </p>
+    <ul class="list-group text-start">
+        <li class="list-group-item"><i class="fas fa-book"></i> Readable - JSON is human-friendly with proper formatting.</li>
+        <li class="list-group-item"><i class="fas fa-compress"></i> Compact - Uses minimal syntax compared to XML.</li>
+        <li class="list-group-item"><i class="fas fa-code"></i> Universal - Supported by JavaScript, Python, Java, C#, and many more.</li>
+        <li class="list-group-item"><i class="fas fa-cogs"></i> Easy to Parse - JSON objects can be quickly converted into usable data.</li>
+    </ul>
+
+    <h3 class="text-warning mt-4"><i class="fas fa-exclamation-triangle"></i> Proper JSON Formatting Rules</h3>
+    <p class="text-start">
+        When working with JSON, it's important to follow these fundamental formatting rules:
+    </p>
+    <ul class="list-unstyled text-start">
+        <li><i class="fas fa-check"></i> Data is written in <strong>key-value pairs</strong> (e.g., <code>"name": "John"</code>).</li>
+        <li><i class="fas fa-check"></i> Objects are wrapped in <strong>curly brackets</strong> (<code>{ }</code>).</li>
+        <li><i class="fas fa-check"></i> Arrays are enclosed in <strong>square brackets</strong> (<code>[ ]</code>).</li>
+        <li><i class="fas fa-check"></i> Keys and string values must be wrapped in <strong>double quotes</strong> (<code>" "</code>).</li>
+        <li><i class="fas fa-check"></i> <strong>Boolean values</strong> are written in lowercase (<code>true</code>, <code>false</code>).</li>
+        <li><i class="fas fa-check"></i> Use <strong>commas</strong> to separate key-value pairs, but <span class="text-danger">do not add a comma after the last item</span>.</li>
+    </ul>
+
+    <h3 class="text-danger mt-4"><i class="fas fa-bug"></i> Common JSON Errors</h3>
+    <p class="text-start">Here are some common mistakes when working with JSON:</p>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Error</th>
+                <th>Example</th>
+                <th>Fix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Trailing Comma</td>
+                <td><code>{ "name": "Alice", }</code></td>
+                <td>Remove the comma: <code>{ "name": "Alice" }</code></td>
+            </tr>
+            <tr>
+                <td>Single Quotes</td>
+                <td><code>{ 'age': 25 }</code></td>
+                <td>Use double quotes: <code>{ "age": 25 }</code></td>
+            </tr>
+            <tr>
+                <td>Missing Quotes</td>
+                <td><code>{ name: "Bob" }</code></td>
+                <td>Add quotes around keys: <code>{ "name": "Bob" }</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</body>
+</html>

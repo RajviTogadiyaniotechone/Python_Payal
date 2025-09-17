@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa, #eef1f4);
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        label {
+            font-weight: 500;
+            display: block;
+            margin: 10px 0 5px;
+            text-align: left;
+            color: #555;
+            font-size: 14px;
+        }
+
+        textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #f5f5f5;
+            transition: 0.3s ease-in-out;
+        }
+
+        textarea {
+            resize: none;
+            min-height: 80px;
+        }
+
+        textarea:focus, select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .char-count {
+            font-size: 12px;
+            text-align: right;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        button {
+            background: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button i {
+            font-size: 18px;
+        }
+
+        button:hover {
+            background: #3e8e41;
+            transform: scale(1.02);
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f1f1;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            text-align: left;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .output h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .output p {
+            margin: 8px 0;
+            padding: 10px;
+            background: #fff;
+            border-radius: 6px;
+            border-left: 6px solid #4CAF50;
+            font-size: 14px;
+            font-weight: 400;
+            color: #555;
+            word-wrap: break-word;
+        }
+
+        .input-text {
+            background: #e9f5e9;
+        }
+
+        .translated-text {
+            background: #dff3fd;
+            border-left-color: #2196F3;
+        }
+
+        .detected-lang {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            margin-top: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-language"></i> Language Translator</h1>
+        <form method="POST">
+            <label for="text">Enter text to translate:</label>
+            <textarea name="text" id="text-area" rows="4" placeholder="Type here..." required oninput="updateCharCount()">{{ original_text }}</textarea>
+            <div class="char-count" id="char-count">0 / 500</div>
+            
+            <label for="language">Target Language:</label>
+            <select name="language" required>
+                {% for code, name in languages.items() %}
+                    <option value="{{ code }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit"><i class="fas fa-globe"></i> Translate</button>
+        </form>
+
+        {% if translated_text %}
+            <div class="output">
+                <h2>Translation Result:</h2>
+                <p class="translated-text"><strong>Translated:</strong> {{ translated_text }}</p>
+            </div>
+        {% endif %}
+
+        {% if detected_language %}
+            <p class="detected-lang">Detected Language: <strong>{{ detected_language }}</strong></p>
+        {% endif %}
+    </div>
+
+    <script>
+        function updateCharCount() {
+            let textArea = document.getElementById("text-area");
+            let charCount = document.getElementById("char-count");
+            charCount.textContent = `${textArea.value.length} / 500`;
+        }
+    </script>
+</body>
+</html>
