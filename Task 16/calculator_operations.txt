@@ -1,0 +1,95 @@
+2025-01-15 11:57:58,625 - is when this event was logged.
+2025-01-15 11:58:35,427 - is when this event was logged.
+01/15/2025 12:03:18 PM - is when this event was logged.
+15/01/2025 12:15:41 PM - is when this event was logged.
+15/01/2025 12:23:07 PM - is when this event was logged.
+15/01/2025 12:23:10 PM - Addition Info : 2.0 + 3.0 = 5.0
+15/01/2025 12:38:53 PM - Addition Info : 3.0 + 6.0 = 9.0
+15/01/2025 12:41:44 PM - Addition Info : 3.0 + 6.0 = 9.0
+15/01/2025 12:44:15 PM - is when this event was logged.
+15/01/2025 12:44:21 PM - Addition Operation : 7.0 + 7.0 = 49.0
+15/01/2025 12:45:04 PM - is when this event was logged.
+15/01/2025 12:45:25 PM - Modulo Operation : 25.0 % 5.0 = 0.0
+15/01/2025 12:50:49 PM - is when this event was logged.
+15/01/2025 12:51:12 PM - Addition Operation : 1254.0 * 3269.0 = 4099326.0
+15/01/2025 12:54:32 PM - Program start.
+15/01/2025 12:54:37 PM - Addition Operation : 2.0 + 3.0 = 5.0
+15/01/2025 12:56:09 PM - Program start.
+15/01/2025 12:56:24 PM - Program start.
+15/01/2025 12:57:22 PM - Addition Operation : 2.5555555555555554 + 23.0 = 25.555555555555557
+15/01/2025 02:33:36 PM - Calculator Program Start.
+15/01/2025 02:33:42 PM - Division Operation : 0.0 / 100.0 = 0.0
+15/01/2025 02:33:50 PM - Error Division by Zero {a} / {b}
+15/01/2025 02:38:24 PM - Calculator Program Start.
+15/01/2025 02:38:24 PM - An INFO
+15/01/2025 02:38:24 PM - A WARNING
+15/01/2025 02:38:24 PM - An ERROR
+15/01/2025 02:38:24 PM - A message of CRITICAL severity
+15/01/2025 02:38:33 PM - Multiplication Operation : 8.0 * 3.0 = 24.0
+15/01/2025 02:58:34 PM - Calculator Program Start.
+15/01/2025 02:58:34 PM - An INFO
+15/01/2025 02:58:34 PM - A WARNING
+15/01/2025 02:58:34 PM - An ERROR
+15/01/2025 02:58:34 PM - A message of CRITICAL severity
+15/01/2025 02:58:45 PM - The value of the 3.0 & 6.0 is:
+15/01/2025 02:58:45 PM - Addition Operation : 3.0 + 6.0 = 9.0
+15/01/2025 02:59:57 PM - Calculator Program Start.
+15/01/2025 02:59:57 PM - An INFO
+15/01/2025 02:59:57 PM - A WARNING
+15/01/2025 02:59:57 PM - An ERROR
+15/01/2025 02:59:57 PM - A message of CRITICAL severity
+15/01/2025 03:00:22 PM - The value of the 0.0 & 0.0 is:
+15/01/2025 03:00:22 PM - Addition Operation : 0.0 + 0.0 = 0.0
+15/01/2025 03:05:05 PM - Calculator Program Start.
+15/01/2025 03:05:05 PM - An INFO
+15/01/2025 03:05:05 PM - A WARNING
+15/01/2025 03:05:05 PM - An ERROR
+15/01/2025 03:05:05 PM - A message of CRITICAL severity
+15/01/2025 03:14:48 PM - Calculator Program Start.
+15/01/2025 03:15:30 PM - Calculator Program Start.
+15/01/2025 03:15:54 PM - The value of num1 and num2 is 2.0 and 3.0.
+15/01/2025 03:15:54 PM - Addition Operation Successful : 5.0
+15/01/2025 04:30:38 PM - Calculator Program Start.
+15/01/2025 04:30:57 PM - Calculator Program Start.
+15/01/2025 04:32:19 PM - Calculator Program Start.
+15/01/2025 04:34:08 PM - Calculator Program Start.
+15/01/2025 04:34:14 PM - The value of num1 and num2 is 3.0 and 6.0.
+15/01/2025 04:34:14 PM - Addition Operation Successful : 9.0
+15/01/2025 04:34:18 PM - Substaction Operation : 5.0 - 5.0 = 0.0
+15/01/2025 04:34:22 PM - Multiplication Operation : 3.0 * 6.0 = 18.0
+15/01/2025 04:34:25 PM - Division Operation : 2.0 / 5.0 = 0.4
+15/01/2025 04:34:35 PM - Modulo Operation : 3.0 % 6.0 = 3.0
+15/01/2025 04:39:20 PM - Calculator Program Start.
+15/01/2025 04:44:29 PM - Calculator Program Start.
+15/01/2025 04:44:45 PM - Calculator Program Start.
+15/01/2025 04:46:17 PM - Calculator Program Start.
+15/01/2025 04:47:56 PM - Calculator Program Start.
+15/01/2025 04:48:01 PM - Input can not be Empty 
+15/01/2025 04:48:05 PM - Input can not be Empty 
+15/01/2025 04:48:06 PM - Input can not be Empty 
+15/01/2025 04:48:19 PM - The value of num1 and num2 is 3.0 and 5.0.
+15/01/2025 04:48:19 PM - Addition Operation Successful : 8.0
+15/01/2025 04:50:04 PM - Calculator Program Start.
+15/01/2025 04:50:04 PM - Calculator Program End.
+15/01/2025 04:50:08 PM - The value of num1 and num2 is 3.0 and 6.0.
+15/01/2025 04:50:08 PM - Addition Operation Successful : 9.0
+15/01/2025 04:51:45 PM - Calculator Program Start.
+15/01/2025 04:51:49 PM - The value of num1 and num2 is 3.0 and 9.0.
+15/01/2025 04:51:49 PM - Addition Operation Successful : 12.0
+15/01/2025 04:51:51 PM - Calculator Program End.
+15/01/2025 04:58:29 PM - Calculator Program Start.
+15/01/2025 04:58:37 PM - The value of num1 and num2 is 96.0 and 96.0.
+15/01/2025 04:58:37 PM - Addition Operation Successful : 192.0
+15/01/2025 04:58:43 PM - The value of num1 and num2 is 89.0 and 80.0.
+15/01/2025 04:58:43 PM - Substaction Operation Successful: 89.0 - 80.0 = 9.0
+15/01/2025 04:58:51 PM - The value of num1 and num2 is 5.0 and 5.0.
+15/01/2025 04:58:51 PM - Multiplication Operation : 5.0 * 5.0 = 25.0
+15/01/2025 04:59:04 PM - The value of num1 and num2 is 12.0 and 6.0.
+15/01/2025 04:59:04 PM - Division Operation : 12.0 / 6.0 = 2.0
+15/01/2025 04:59:36 PM - The value of num1 and num2 is 10.0 and 2.0.
+15/01/2025 04:59:36 PM - Modulo Operation : 10.0 % 2.0 = 0.0
+15/01/2025 04:59:42 PM - Input can not be Empty 
+15/01/2025 04:59:44 PM - Input can not be Empty 
+15/01/2025 04:59:47 PM - The value of num1 and num2 is 5.0 and 6.0.
+15/01/2025 04:59:47 PM - Multiplication Operation : 5.0 * 6.0 = 30.0
+15/01/2025 04:59:49 PM - Calculator Program End.
