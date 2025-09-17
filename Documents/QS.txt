@@ -1,0 +1,221 @@
+Let's learn about list comprehensions! You are given three integers  and  representing the dimensions of a cuboid along with an integer . Print a list of all possible coordinates given by  on a 3D grid where the sum of  is not equal to . Here, . Please use list comprehensions rather than multiple loops, as a learning exercise.
+
+Example
+
+All permutations of  are:
+.
+
+Print an array of the elements that do not sum to .
+
+
+Input Format
+
+Four integers  and , each on a separate line.
+
+Constraints
+
+Print the list in lexicographic increasing order.
+
+Sample Input 0
+
+1
+1
+1
+2
+Sample Output 0
+
+[[0, 0, 0], [0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1]]
+
+ANSWER:
+
+if __name__ == '__main__':
+    # Read the four integers: x, y, z, and n
+    x = int(input())  # Dimension x
+    y = int(input())  # Dimension y
+    z = int(input())  # Dimension z
+    n = int(input())  # The sum to avoid
+
+    result = [[i,j,k] for i in range(x+1) for j in range(y+1) for k in range(z+1) if i+j+k!=n]
+   
+    print(result)
+--------------------------------------------------------
+====There are  students in this class whose names and grades are assembled to build the following list:
+
+python students = [['Harry', 37.21], ['Berry', 37.21], ['Tina', 37.2], ['Akriti', 41], ['Harsh', 39]]
+
+The lowest grade of  belongs to Tina. The second lowest grade of  belongs to both Harry and Berry, so we order their names alphabetically and print each name on a new line.
+
+if __name__ == '__main__':
+    records = []
+    for _ in range(int(input())):
+        name = input()
+        score = float(input())
+        records.append([name, score])
+    records = sorted(records,  key = lambda x: x[1])
+    lowest_score = records[0][1]
+    
+    second_lowest_score = next(score for _, score in records if score > lowest_score)
+    
+    result = sorted([name for name, score in records if score == second_lowest_score])
+    print("\n".join(result))
+
+-----------------------------
+
+if __name__ == '__main__':
+    n = int(input())
+    student_marks = {}
+    for _ in range(n):
+        name, *line = input().split()
+        scores = list(map(float, line))
+        student_marks[name] = scores
+    query_name = input()
+    Marks=student_marks[query_name]
+    avg=sum(Marks)/len(Marks)
+    print(f"{avg:.2f}")
+
+
+--------------------------------
+
+if __name__ == '__main__':
+    N = int(input())
+    new_list = []
+    for _ in range(N):
+        inputs = input().split()
+        if inputs[0] == "insert":
+            new_list.insert(int(inputs[1]), int(inputs[2]))
+        elif inputs[0] == "print":
+            print(new_list)
+        elif inputs[0] == "remove":
+            new_list.remove(int(inputs[1]))
+        elif inputs[0] == "append":
+            new_list.append(int(inputs[1]))
+        elif inputs[0] == "sort":
+            new_list.sort()
+        elif inputs[0] == "pop":
+            new_list.pop()
+        elif inputs[0] == "reverse":
+            new_list.reverse()
+
+----------------------------------------
+
+def minion_game(s):
+    vowels = 'AEIOU'
+    str_len = len(s)
+    
+    kevin_score = 0
+    stuart_score = 0
+
+    for i in range(str_len):
+        if s[i] in vowels:
+            kevin_score += str_len - i
+        else:
+            stuart_score += str_len - i
+
+    if kevin_score > stuart_score:
+        print(f'Kevin {kevin_score}')
+    elif stuart_score > kevin_score:
+        print(f'Stuart {stuart_score}')
+    else:
+        print('Draw')
+
+        
+if __name__ == '__main__':
+    s = input()
+    minion_game(s)
+
+
+----------------------------------------
+
+from collections import Counter
+
+if __name__ == '__main__':
+    s = input().strip()
+
+    count = Counter(s)
+
+    sorted_count = sorted(count.items(), key=lambda x: (-x[1], x[0]))
+
+    for char, freq in sorted_count[:3]:
+        print(char, freq)
+
+----------------------------------
+
+
+import math
+import os
+import random
+import re
+import sys
+
+
+
+if __name__ == '__main__':
+    nm = input().split()
+
+    n = int(nm[0])
+
+    m = int(nm[1])
+
+    arr = []
+
+    for _ in range(n):
+        arr.append(list(map(int, input().rstrip().split())))
+
+    k = int(input())
+    arr.sort(key=lambda x: x[k])
+    for i in arr:
+        print(*i)
+
+
+==================================================
+
+def swap_case(s):
+    a = s.swapcase()
+    return str(a)
+
+if __name__ == '__main__':
+    s = input()
+    result = swap_case(s)
+    print(result)
+
+=================================================
+
+
+
+def split_and_join(line):
+    line = line.split(" ")
+    a = "-".join(line)
+    return a
+    # write your code here
+
+if __name__ == '__main__':
+    line = input()
+    result = split_and_join(line)
+    print(result)
+
+================================================
+
+def print_full_name(first, last):
+    name =  print(f"Hello {first} {last}! You just delved into python.")
+    return name
+    
+
+if __name__ == '__main__':
+    first_name = input()
+    last_name = input()
+    print_full_name(first_name, last_name)
+
+===============================================
+
+def mutate_string(string, position, character):
+    string=list(string)
+    string[position]=character
+    string="".join(string)
+    return string
+
+if __name__ == '__main__':
+    s = input()
+    i, c = input().split()
+    s_new = mutate_string(s, int(i), c)
+    print(s_new)
+

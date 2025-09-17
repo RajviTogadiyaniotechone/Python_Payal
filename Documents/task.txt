@@ -1,0 +1,219 @@
+https://www.simplilearn.com/tutorials/machine-learning-tutorial/reinforcement-learning
+
+RISE >>>
+UN  :  payalr@niotechone.com
+PS  :  Niotech@8252#
+
+
+EMAIL >>>
+UN  :  payalr@niotechone.com
+PS  :  #Niotechone123
+
+
+
+https://www.speedtypingonline.com/typing-test
+https://indiatyping.com/index.php/typing-tutor/english-typing-tutor
+-----------------------------------------------------------------------------------------
+
+Task 1:
+
+i have learn and setup installation of vs code and Pycharm and did some basic program in Hacker rank and learn some basic knowledge of operators, strings and OOP concepts.
+
+Task 2:
+
+details:  Learn about variables, data types (int, float, str, bool), type casting, basic operations. Practice: Simple variable assignments and operations.
+Github :  https://github.com/payalniotechone/Python/tree/main/Task%202
+URL: https://www.w3schools.com/python/python_datatypes.asp
+Learned variables, data types, type casting, basic operations of all the data types also i have attatched link of a github file of the work and did some programs in hacker rank.
+
+Task 3:
+
+Details : Basic Operators, Arithmetic operators, comparison operators, logical operators. Practice: Write a simple calculator program.
+    Write a program that checks if a number is divisible by 3
+URL:  https://www.w3schools.com/python/python_operators.asp
+      https://www.programiz.com/python-programming/operators
+GITHUB : https://github.com/payalniotechone/Python/tree/main/Task%203
+Learned about operators and did practicales python mcqs in codechef.
+
+
+Task 4:
+
+Details       :  Control Flow: Conditional Statements
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%204
+Learning Url  :  https://www.geeksforgeeks.org/conditional-statements-in-python/#4-ifelifelse-conditional-statements-in-python
+		https://www.w3schools.com/python/python_conditions.asp
+I have learned if, elif, else, nested conditions, pass statement, shorthand if else, conditional statements with logical operators, did some practicals also programs on Hackerrank and did number guessing game in python.
+
+
+Task 5:
+
+Details       :  Loops: for and while
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%205
+Learning Url  :  https://www.w3schools.com/python/python_for_loops.asp
+		 https://www.geeksforgeeks.org/loops-in-python/
+for loops, while loops, loop control statements, break, continue did practicals and practiced pattern programs
+
+
+Task 6:
+
+Details       :  Functions
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%206
+Learning Url  :  https://www.geeksforgeeks.org/python-functions/
+		 https://www.w3schools.com/python/python_functions.asp
+so today i did Functions and its four arguments, return values and variable scope also did practicals given in the documents, and worked on the extra task
+
+
+Task 7: 31/12/24
+
+Details       :  Data Structures: Lists
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%207
+Learning Url  :  https://developers.google.com/edu/python/lists
+		 https://www.w3schools.com/python/python_lists.asp
+ i learned Lists, indexing, slicing, list methods, list operations also did practicals given in the documents, and worked on the extra task
+
+
+Task 8: 01/01/25
+
+Details       :  Data Structures: Tuples
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%208
+Learning Url  :  https://www.w3schools.com/python/python_tuples.asp
+		 https://www.geeksforgeeks.org/python-clearing-a-tuple/?ref=lbp
+i Learned Tuples, and it's methods, implement of the tupple difference of the tuple and list, tuple packing and unpacking, slicing in tuple also did programs in Hackerrank. and overviewed some python's library. 
+
+
+Task 9: 02/01/25
+
+Details       :  Data Structures: Dictionary
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%209
+Learning Url  :   https://www.w3schools.com/python/python_dictionaries.asp
+		  https://www.javatpoint.com/python-dictionary 
+
+i Learned Dictionary, and it's methods, accessing and modifying data, did practicals and worked on the dashboard. 
+
+
+Task 10: 03/01/25
+
+Details       :  Data Structures: Sets
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%2010
+Learning Url  :  https://www.w3schools.com/python/python_sets.asp
+		 https://www.javatpoint.com/python-set
+I Learned Sets, set operations (union, intersection, difference), properties and it's methods, did practicals also did programs in Hackerrank and worked on the dashboard.
+
+04/05--
+
+Task 11: 06/01/25
+
+Details       :  File Handling
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%2011
+Learning Url  :  https://pynative.com/python/file-handling/
+		 https://www.w3schools.com/python/python_file_handling.asp
+
+Operation of the files (open, read, write, close), did practicals and worked on the dashboard.
+
+
+07/01--
+
+Task 12: 08/01/25
+
+Details       :  Error Handling
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%2012
+Learning Url  :  https://www.w3schools.com/python/gloss_python_error_handling.asp
+		 https://www.geeksforgeeks.org/python-exception-handling/
+
+Exceptions (try, except, finally), did practicals and worked on the dashboard.
+
+
+
+Task 13: 09/01/25
+
+Details       :  Modules
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%2013
+Learning Url  :  https://www.geeksforgeeks.org/python-modules/
+		 Chatgpt
+
+I Learned importing standard libraries (math, random, os), creating custom modules, did practicals and worked on the dashboard.
+
+
+
+Task 14: 10/01/25
+
+Details       :  Object-Oriented Programming (OOP)
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Task%2014
+Learning Url  :  https://www.geeksforgeeks.org/abstract-classes-in-python/?ref=lbp
+		 https://www.programiz.com/python-programming/object-oriented-programming
+		 Chatgpt
+
+I Learned Classes, objects, methods, attributes, inheritance, polymorphism, abstraction did practicals and worked on the dashboard.
+
+11/12---
+
+
+Task 15: 13/01/25
+
+Details       :  Project Day
+Github Url    :  https://github.com/payalniotechone/Python/tree/main/Project
+
+Simple calculator, to-do list application, or number guessing game, and worked on the dashboard.
+
+Task 16: Log File Handling 15/01/25
+GitHub URL : https://github.com/payalniotechone/Python/tree/main/Task%2016
+Learning Url : https://blog.sentry.io/logging-in-python-a-developers-guide/#:~:text=You%20can%20log%20messages%20to,analyze%20and%20debug%20your%20code. 
+I have Lerned how log can be maintained in the program info warning and exception is record is maintained.
+
+Task 17: 16/01/25
+Detail: Knapsack Problem (Dynamic Programming)
+
+GitHub URL: https://github.com/payalniotechone/Python/blob/main/DS/Knapsack.py
+
+Learned about Knapsack Problem and how it can be solved by Dynamic Programming.
+
+Task 18: 17/01/25
+Detail: Fibbonacci Sequeance Memoization
+
+GitHub URL: https://github.com/payalniotechone/Python/blob/main/DS/Fibo.py
+
+18/19---
+
+Task 19: Dijkstra Algoritham 20/01/25
+
+Task 20: Merge Sort Algoritham  21/01/25
+GitHub Link : https://github.com/payalniotechone/Python/blob/main/DS/MergeSort.py
+
+I have learned Merge Sort, Selection Sort, String Sort.
+
+
+Task 21 : Sudoku Solver(Backtracking) 22/01/25
+
+GitHub Link : https://github.com/payalniotechone/Python/blob/main/DS/Sudoku.py
+
+Learned about Sudoku Solving technique, Backtracking
+
+Task 22 : 23/01/25
+Details: Tower Of Hanoi (Recursive Solution)
+
+GitHub Link: https://github.com/payalniotechone/Python/blob/main/DS/TowerOfHanoi.py
+
+Learned about the Tower Of Hanoi and How it can be solved Recursively.
+
+Task 23: 24/01/25
+Details: Palindrome check by Dynamic Programming
+
+GitHub Link: https://github.com/payalniotechone/Python/blob/main/DS/Palindrom_by_dp.py
+
+Learned about Palindrome Programming by Dynamic Programming. 
+
+ 25/26--
+
+task 24: 27/01/25
+Details: Prime Factorization
+
+GitHub Link: https://github.com/payalniotechone/Python/blob/main/DS/Prime_Factorization.py
+
+Learned about Prime Factorization by Efficient method
+
+Task 25: 28/01/25
+Detail: Generate all Subsets (Backtracking)
+
+GitHub URL: https://github.com/payalniotechone/Python/blob/main/DS/Subset.py
+
+Learned about the program that generate all subsets of a given set by backtracking.

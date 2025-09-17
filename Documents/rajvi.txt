@@ -1,0 +1,218 @@
+========================csv==================
+import pandas as pd
+import plotly.express as px
+from dash import dcc, html
+import dash_bootstrap_components as dbc
+import dash
+from dash.dependencies import Input, Output
+from datetime import datetime
+
+# Function to load and preprocess data from a CSV
+def load_and_preprocess_data(file_path):
+    data = pd.read_csv(file_path)
+    df = pd.DataFrame(data)
+
+    # Convert Punch-in and Punch-out to datetime if available
+    def convert_time(t):
+        try:
+            return datetime.strptime(t, '%H:%M')
+        except:
+            return None
+
+    df['Punch-in'] = df['Punch-in'].apply(convert_time)
+    df['Punch-out'] = df['Punch-out'].apply(convert_time)
+
+    # Function to calculate worked hours
+    def calculate_worked_hours(row):
+        if row['Punch-in'] and row['Punch-out']:
+            return (row['Punch-out'] - row['Punch-in']).seconds / 3600
+        return 0
+
+    # Calculate Worked Hours based on Punch-in and Punch-out times
+    df['Worked Hours'] = df.apply(calculate_worked_hours, axis=1)
+
+    # Calculate Manual Total Hours and Idle Hours as well
+    df['Manual Total Hours'] = pd.to_timedelta(df['Timer Hours'], errors='coerce').dt.total_seconds() / 3600
+    df['Idle Hours'] = pd.to_timedelta(df['Idle Hours'], errors='coerce').dt.total_seconds() / 3600
+    df['Total Ex Idle Hours'] = pd.to_timedelta(df['Total Ex Idle Hours'], errors='coerce').dt.total_seconds() / 3600
+    df['Total Inc Idle Hours'] = pd.to_timedelta(df['Total Inc Idle Hours'], errors='coerce').dt.total_seconds() / 3600
+
+    # Handle calculation of various metrics
+    df['Late Punch'] = df['Punch-in'].apply(lambda x: 1 if x and x.hour > 10 else 0)
+    df['Overtime'] = df['Worked Hours'].apply(lambda x: 1 if x > 8.5 else 0)
+    df['Early Leave'] = df['Punch-out'].apply(lambda x: 1 if x and x.hour < 20 else 0)
+    df['Half Day'] = df['Worked Hours'].apply(lambda x: 1 if x < 4.5 else 0)
+    df['Leaves'] = df['Worked Hours'].apply(lambda x: 1 if x == 0 else 0)
+
+    # Modify the 'Day' column to show the first letter of the day and the month abbreviation
+    def format_day(day):
+        if 'Total' in str(day):  # Check for 'Total' in the day column
+            return day
+        try:
+            day_parts = day.split()
+            day_name = day_parts[0][0]  # Get the first letter of the day name
+            day_number = int(day_parts[1].split('-')[0])  # Get the numeric part of the day
+            month = day_parts[1].split('-')[1][0]  # Get the first letter of the month
+            return f"{day_name} {day_number}-{month}"
+        except Exception as e:
+            print(f"Error formatting day '{day}': {str(e)}")
+            return 'Invalid Day'
+
+    df['Day'] = df['Day'].apply(format_day)
+    # Remove any rows with 'Invalid Day'
+    df = df[df['Day'] != 'Invalid Day']
+    return df
+
+# Function to get valid names (non-null and unique) from the CSV file
+def get_valid_names(file_path):
+    df = pd.read_csv(file_path)
+    valid_names = df['Name'].dropna().unique()  # Remove NaN values and get unique names
+    return valid_names
+
+# List of available CSV files (we will use one file for simplicity)
+csv_file = "Divyesh Patel_csv.csv"  # Path to the CSV file
+
+# Get valid names for dropdown options
+valid_names = get_valid_names(csv_file)
+
+# Initialize the Dash app
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+
+
+
+
+
+
+
+
+# Layout of the app
+app.layout = html.Div([
+    dbc.Row([  # Row for Title
+        dbc.Col(html.H1("Attendance and Work Hours Dashboard", style={'textAlign': 'center', 'color': 'darkblue'}), width=12)
+    ]),
+
+    # Dropdown for selecting Name
+    dbc.Row([  # Row for Dropdown Menu
+        dbc.Col(html.Label("Select Name:", style={'fontSize': '20px','padding': '10px', 'marginLeft': '20px','fontWeight': 'bold'}), width="auto", align='center'),  # Label for dropdown
+        dbc.Col(dcc.Dropdown(
+            id='name-dropdown',
+            options=[{'label': name, 'value': name} for name in valid_names],  # Only use valid names
+            value=valid_names[0],  # Default value to the first name
+            style={'width': '60%', 'fontSize': '16px', 'marginLeft': '10px'}
+        ), width=12)
+    ]),
+
+    # Placeholder for the graphs
+    dbc.Row([  # Row for Bar Graph (Total Worked Hours Per Day)
+        dbc.Col(dcc.Graph(
+            id='work-hours-graph'
+        ), width=12)
+    ]),
+    dbc.Row([  # Row for Pie Charts
+        dbc.Col(dcc.Graph(
+            id='overtime-graph'
+        ), width=6),
+        dbc.Col(dcc.Graph(
+            id='late-punch-graph'
+        ), width=6)
+    ]),
+    dbc.Row([  # Row for Half Day and Leave Pie Charts
+        dbc.Col(dcc.Graph(
+            id='half-day-graph'
+        ), width=6),
+        dbc.Col(dcc.Graph(
+            id='leaves-graph'
+        ), width=6)
+    ]),
+    dbc.Row([  # Row for Worked Hours Trend Line Graph
+        dbc.Col(dcc.Graph(
+            id='worked-hours-trend'
+        ), width=12)
+    ])
+])
+
+# Callback function to update the graphs based on selected name
+@app.callback(
+    [
+        Output('work-hours-graph', 'figure'),
+        Output('overtime-graph', 'figure'),
+        Output('late-punch-graph', 'figure'),
+        Output('half-day-graph', 'figure'),
+        Output('leaves-graph', 'figure'),
+        Output('worked-hours-trend', 'figure')
+    ],
+    [Input('name-dropdown', 'value')]
+)
+def update_graphs(selected_name):
+    # Load and preprocess data for the selected name
+    df = load_and_preprocess_data(csv_file)
+
+    # Filter data by selected name
+    df_filtered = df[df['Name'] == selected_name]
+
+    # Generate graphs as before (using filtered df)
+    overtime_fig = px.pie(df_filtered, names='Overtime', 
+                          title="Overtime Days", 
+                          color_discrete_map={0: 'lightgray', 1: 'pink'}, 
+                          labels={0: 'Leave', 1: 'Worked'},
+                          hole=0.3,  
+                          template='plotly_dark',  
+                          color_discrete_sequence=['#D3D3D3', '#FF69B4'])  
+    overtime_fig.update_traces(textinfo='percent+label')
+
+    late_punch_fig = px.pie(df_filtered, names='Late Punch', 
+                            title="Late Punch Days", 
+                            color_discrete_map={0: 'blue', 1: 'orange'}, 
+                            labels={0: 'Regular Day', 1: 'Late Punch Day'},
+                            hole=0.3,  
+                            template='plotly_dark',  
+                            color_discrete_sequence=['#1F77B4', '#FF7F0E'])
+    late_punch_fig.update_traces(textinfo='percent+label')
+
+    half_day_fig = px.pie(df_filtered, names='Half Day', 
+                          title="Half Days", 
+                          color_discrete_map={0: 'purple', 1: 'pink'},
+                          hole=0.3,  
+                          labels={0: 'Full Day', 1: 'Half Day'},
+                          color_discrete_sequence=['#800080', '#FF69B4'])  
+    half_day_fig.update_traces(textinfo='percent+label')
+
+    leaves_fig = px.pie(df_filtered, names='Leaves', 
+                        title="Leave Days", 
+                        color_discrete_map={0: 'pink', 1: 'gray'},
+                        hole=0.3,  
+                        labels={0: 'No Leave', 1: 'Leave'},
+                        color_discrete_sequence=['#FF69B4', '#A9A9A9'])
+    leaves_fig.update_traces(textinfo='percent+label')
+
+    work_hours_fig = px.bar(df_filtered, x='Day', y='Worked Hours', 
+                            color='Worked Hours', 
+                            color_continuous_scale='Blues', 
+                            title="Total Worked Hours Per Day",
+                            # color_discrete_map={
+                            # "Regular Day": "blue",
+                            # "Half Day": "goldenrod"},
+                            labels={'Worked Hours': 'Worked Hours (in Hours)', 'Day': 'Work Day'}
+                           ).update_traces(
+        hovertemplate="%{x}: %{y:.1f} hours"
+    )
+
+    worked_hours_trend = px.line(df, x='Day', y='Worked Hours', 
+                                 title="Worked Hours Trend",
+                                 line_shape='linear', markers=True).update_layout(
+        yaxis=dict(
+            title='Worked Hours (in Hours)',  
+            tickformat=".1f"
+        ),
+        xaxis=dict(
+            tickangle=45
+        )
+    )
+
+    # Return updated figures
+    return work_hours_fig, overtime_fig, late_punch_fig, half_day_fig, leaves_fig, worked_hours_trend
+
+# Run the server on a different port
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8060)

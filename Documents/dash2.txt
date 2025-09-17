@@ -1,0 +1,140 @@
+dashboard2 with donut pie chart
+
+
+import pandas as pd
+import plotly.express as px
+from dash import dcc, html
+import dash_bootstrap_components as dbc
+import dash
+from datetime import datetime
+
+# Read the data
+data = pd.read_csv("Divyesh_Patel.csv")
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Function to convert time in HH:MM format to timedelta or return None if not available
+def convert_time(t):
+    try:
+        return datetime.strptime(t, '%H:%M')
+    except:
+        return None
+
+# Convert Punch-in and Punch-out to datetime if available
+df['Punch-in'] = df['Punch-in'].apply(convert_time)
+df['Punch-out'] = df['Punch-out'].apply(convert_time)
+
+# Function to calculate worked hours
+def calculate_worked_hours(row):
+    if row['Punch-in'] and row['Punch-out']:
+        return (row['Punch-out'] - row['Punch-in']).seconds / 3600
+    return 0
+
+# Calculate Worked Hours based on Punch-in and Punch-out times
+df['Worked Hours'] = df.apply(calculate_worked_hours, axis=1)
+
+# Calculate Manual Total Hours and Idle Hours as well
+df['Manual Total Hours'] = pd.to_timedelta(df['Timer Hours'], errors='coerce').dt.total_seconds() / 3600
+df['Idle Hours'] = pd.to_timedelta(df['Idle Hours'], errors='coerce').dt.total_seconds() / 3600
+df['Total Ex Idle Hours'] = pd.to_timedelta(df['Total Ex Idle Hours'], errors='coerce').dt.total_seconds() / 3600
+df['Total Inc Idle Hours'] = pd.to_timedelta(df['Total Inc Idle Hours'], errors='coerce').dt.total_seconds() / 3600
+
+# Handle calculation of various metrics
+df['Late Punch'] = df['Punch-in'].apply(lambda x: 1 if x and x.hour > 10 else 0)
+df['Overtime'] = df['Worked Hours'].apply(lambda x: 1 if x > 8.5 else 0)
+df['Early Leave'] = df['Punch-out'].apply(lambda x: 1 if x and x.hour < 20 else 0)
+df['Half Day'] = df['Worked Hours'].apply(lambda x: 1 if x < 4.5 else 0)
+df['Leaves'] = df['Worked Hours'].apply(lambda x: 1 if x == 0 else 0)
+
+# Create the Dash app (no longer using JupyterDash)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+# Create the graphs and update the figures
+# Overtime pie chart
+overtime_fig = px.pie(df, names='Overtime', 
+                      title="Overtime Days", 
+                      color_discrete_map={0: 'lightgray', 1: 'pink'}, 
+                      labels={0: 'Leave', 1: 'Worked'},
+                      hole=0.3,  
+                      template='plotly_dark',  
+                      color_discrete_sequence=['#D3D3D3', '#FF69B4'])  
+overtime_fig.update_traces(textinfo='percent+label')
+
+# Late Punch pie chart
+late_punch_fig = px.pie(df, names='Late Punch', 
+                        title="Late Punch Days", 
+                        color_discrete_map={0: 'blue', 1: 'orange'}, 
+                        labels={0: 'Regular Day', 1: 'Late Punch Day'},
+                        hole=0.3,  
+                        template='plotly_dark',  
+                        color_discrete_sequence=['#1F77B4', '#FF7F0E'])
+late_punch_fig.update_traces(textinfo='percent+label')
+
+# Half Day pie chart
+half_day_fig = px.pie(df, names='Half Day', 
+                      title="Half Days", 
+                      color_discrete_map={0: 'purple', 1: 'pink'},
+                      hole=0.3,  
+                      labels={0: 'Full Day', 1: 'Half Day'},
+                      color_discrete_sequence=['#800080', '#FF69B4'])  
+half_day_fig.update_traces(textinfo='percent+label')
+
+# Leaves pie chart
+leaves_fig = px.pie(df, names='Leaves', 
+                    title="Leave Days", 
+                    color_discrete_map={0: 'pink', 1: 'gray'},
+                    hole=0.3,  
+                    labels={0: 'No Leave', 1: 'Leave'},
+                    color_discrete_sequence=['#FF69B4', '#A9A9A9'])
+leaves_fig.update_traces(textinfo='percent+label')
+
+# App Layout
+app.layout = html.Div([
+    dbc.Row([  # Row for Title
+        dbc.Col(html.H1("Attendance and Work Hours Dashboard", style={'textAlign': 'center', 'color': 'darkblue'}), width=12)
+    ]),
+    dbc.Row([  # Row for Bar Graph (Total Worked Hours Per Day)
+        dbc.Col(dcc.Graph(
+            id='work-hours-graph',
+            figure=px.bar(df, x='Day', y='Worked Hours', 
+                          color='Worked Hours', 
+                          color_continuous_scale='Viridis', 
+                          title="Total Worked Hours Per Day",
+                          labels={'Worked Hours': 'Worked Hours (in Hours)', 'Day': 'Work Day'})
+        ), width=12)
+    ]),
+    dbc.Row([  # Row for Pie Charts
+        dbc.Col(dcc.Graph(
+            id='overtime-graph',
+            figure=overtime_fig
+        ), width=6),
+
+        dbc.Col(dcc.Graph(
+            id='late-punch-graph',
+            figure=late_punch_fig
+        ), width=6)
+    ]),
+    dbc.Row([  # Row for Half Day and Leave Pie Charts
+        dbc.Col(dcc.Graph(
+            id='half-day-graph',
+            figure=half_day_fig
+        ), width=6),
+
+        dbc.Col(dcc.Graph(
+            id='leaves-graph',
+            figure=leaves_fig
+        ), width=6)
+    ]),
+    dbc.Row([  # Row for Worked Hours Trend Line Graph
+        dbc.Col(dcc.Graph(
+            id='worked-hours-trend',
+            figure=px.line(df, x='Day', y='Worked Hours', 
+                           title="Worked Hours Trend",
+                           line_shape='linear', markers=True)
+        ), width=12)
+    ])
+])
+
+# Run the server on a different port
+app.run_server(debug=True, port=8059) 
